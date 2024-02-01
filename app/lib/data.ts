@@ -180,6 +180,25 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
+export async function fetchCustomerById(id: string) {
+  noStore();
+  try {
+    const data = await sql<CustomerField>`
+      SELECT
+        id,
+        name
+      FROM customers
+      WHERE id = ${id}
+    `;
+
+    const customer = data.rows[0];
+    return customer;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch customer.');
+  }
+}
+
 export async function fetchCustomers() {
   noStore();
   try {
